@@ -86,7 +86,7 @@ RUN apt-get update && \
 ADD script/buildFFmpeg.sh /build.sh
 RUN ["/bin/bash", "/build.sh"]
 
-RUN apt-get purge --auto-remove -y g++ git wget pkg-config cmake automake build-essential autoconf\
+RUN apt-get purge --auto-remove -y git cmake automake build-essential\
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
