@@ -3,20 +3,21 @@ FROM php:7-fpm
 MAINTAINER Mehrdad Dadkhah <mehrdad@dadkhah.me>
 
 RUN apt-get update && apt-get install -y \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libpng-dev \
-        libpq-dev \
-        g++ \
-        libicu-dev \
-        libxml2-dev \
-        git \
-        vim \
-        libfreetype6-dev \
-        libjpeg62-turbo-dev \
-        libmcrypt-dev \
-        zlib1g-dev \
-        libmagickwand-dev --no-install-recommends
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libpq-dev \
+    g++ \
+    libicu-dev \
+    libxml2-dev \
+    git \
+    vim \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libmcrypt-dev \
+    zlib1g-dev \
+    libmagickwand-dev --no-install-recommends \
+    procps
 
 RUN docker-php-ext-configure intl \
     && docker-php-ext-install mbstring \
@@ -29,6 +30,7 @@ RUN docker-php-ext-configure intl \
     && docker-php-ext-install -j$(nproc) gd \
     && docker-php-ext-install opcache \
     && docker-php-ext-install mysqli \
+    && docker-php-ext-install bcmath \
     && pecl install imagick  \
     && docker-php-ext-enable imagick \
     && pecl install apcu \
@@ -43,9 +45,9 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
     && ( \
     cd /tmp/redis/phpredis-$PHPREDIS_VERSION \
     && phpize \
-        && ./configure \
+    && ./configure \
     && make -j$(nproc) \
-        && make install \
+    && make install \
     ) \
     && rm -r /tmp/redis \
     && docker-php-ext-enable redis
@@ -60,23 +62,23 @@ COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 RUN apt-get update && \
     apt-get -qqy install --no-install-recommends \
-        autoconf \
-        automake \
-        build-essential \
-        ca-certificates \
-        mercurial \
-        cmake \
-        libass-dev \
-        libgpac-dev \
-        libtheora-dev \
-        libtool \
-        libvdpau-dev \
-        libvorbis-dev \
-        pkg-config \
-        texi2html \
-        libmp3lame-dev \
-        wget \
-        yasm
+    autoconf \
+    automake \
+    build-essential \
+    ca-certificates \
+    mercurial \
+    cmake \
+    libass-dev \
+    libgpac-dev \
+    libtheora-dev \
+    libtool \
+    libvdpau-dev \
+    libvorbis-dev \
+    pkg-config \
+    texi2html \
+    libmp3lame-dev \
+    wget \
+    yasm
 
 
 # Run build script
