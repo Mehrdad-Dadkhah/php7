@@ -17,6 +17,7 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev \
     zlib1g-dev \
     libmagickwand-dev --no-install-recommends \
+    libzip-dev \
     procps
 
 RUN docker-php-ext-configure intl \
