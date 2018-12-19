@@ -31,6 +31,7 @@ RUN docker-php-ext-configure intl \
     && docker-php-ext-install opcache \
     && docker-php-ext-install mysqli \
     && docker-php-ext-install bcmath \
+    && docker-php-ext-install pcntl \
     && pecl install imagick  \
     && docker-php-ext-enable imagick \
     && pecl install apcu \
