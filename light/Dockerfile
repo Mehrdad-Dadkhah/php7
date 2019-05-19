@@ -1,12 +1,13 @@
+FROM php:7-fpm
 
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libpng12-dev \
-    libpq-dev \
-    g++ \
-    libicu-dev \
-    libxml2-dev \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng12-dev \
+        libpq-dev \
+        g++ \
+        libicu-dev \
+        libxml2-dev \
     && docker-php-ext-configure intl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-install intl \
@@ -18,8 +19,28 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+# install GD and mcrypt
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng12-dev \
+    && docker-php-ext-install -j$(nproc) iconv mcrypt \
+    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-install -j$(nproc) gd
 
-# install php-redis
+
+#install Imagemagick & PHP Imagick ext
+RUN apt-get update && apt-get install -y \
+        libmagickwand-dev --no-install-recommends
+
+RUN pecl install imagick && docker-php-ext-enable imagick
+
+# install apcu
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu
+
+#install php-redis
 ENV PHPREDIS_VERSION php7
 
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz  \
@@ -29,46 +50,17 @@ RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$P
     && ( \
     cd /tmp/redis/phpredis-$PHPREDIS_VERSION \
     && phpize \
-    && ./configure \
+        && ./configure \
     && make -j$(nproc) \
-    && make install \
+        && make install \
     ) \
     && rm -r /tmp/redis \
     && docker-php-ext-enable redis
-
-
-
-# install GD and mcrypt
-RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libmcrypt-dev \
-    libpng12-dev \
-    && docker-php-ext-install -j$(nproc) iconv mcrypt \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd
-
-# install apcu
-RUN pecl install apcu \
-    && docker-php-ext-enable apcu
-
-#install Imagemagick & PHP Imagick ext
-RUN apt-get update && apt-get install -y \
-    libmagickwand-dev --no-install-recommends
-
-RUN pecl install imagick && docker-php-ext-enable imagick
-
-# install mongodb ext
-RUN pecl install mongodb \
-    && docker-php-ext-enable mongodb
 
 # install git
 RUN apt-get update && apt-get install git git-core -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
-
-#install xdebug
-RUN pecl install xdebug && docker-php-ext-enable xdebug
 
 # remove not necessary files
 RUN rm -rf /var/lib/apt/lists/*
