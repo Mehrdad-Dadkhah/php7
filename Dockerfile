@@ -39,7 +39,7 @@ RUN docker-php-ext-configure intl \
     && pecl install apcu \
     && docker-php-ext-enable apcu
 
-ENV PHPREDIS_VERSION 3.1.4
+ENV PHPREDIS_VERSION 5.1.1
 
 RUN curl -L -o /tmp/redis.tar.gz https://github.com/phpredis/phpredis/archive/$PHPREDIS_VERSION.tar.gz  \
     && mkdir /tmp/redis \
