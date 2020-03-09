@@ -18,9 +18,9 @@ apt-get -y install yasm || (cd ~/ffmpeg_sources \
     && make && make install)
 
 cd ~/ffmpeg_sources
-wget http://www.nasm.us/pub/nasm/releasebuilds/2.13.01/nasm-2.13.01.tar.bz2
-tar xjvf nasm-2.13.01.tar.bz2
-cd nasm-2.13.01
+wget http://www.nasm.us/pub/nasm/releasebuilds/2.14.02/nasm-2.14.02.tar.bz2
+tar xjvf nasm-2.14.02.tar.bz2
+cd nasm-2.14.02
 ./autogen.sh
 PATH="$HOME/bin:$PATH" ./configure --prefix="$HOME/ffmpeg_build" --bindir="$HOME/bin"
 PATH="$HOME/bin:$PATH" make
@@ -53,17 +53,17 @@ apt-get -y install libfdk-aac-dev || (cd ~/ffmpeg_sources \
     && make install)
 
 apt-get -y install libmp3lame-dev || (cd ~/ffmpeg_sources \
-    && wget http://downloads.sourceforge.net/project/lame/lame/3.99/lame-3.99.5.tar.gz \
-    && tar xzvf lame-3.99.5.tar.gz \
-    && cd lame-3.99.5 \
+    && wget http://downloads.sourceforge.net/project/lame/lame/3.100/lame-3.100.tar.gz \
+    && tar xzvf lame-3.100.tar.gz \
+    && cd lame-3.100 \
     && ./configure --prefix="$HOME/ffmpeg_build" --enable-nasm --disable-shared \
     && make ${MAKEFLAGS} \
     && make install)
 
 apt-get -y install libopus-dev || (cd ~/ffmpeg_sources \
-    && wget https://archive.mozilla.org/pub/opus/opus-1.1.5.tar.gz \
-    && tar xzvf opus-1.1.5.tar.gz \
-    && cd opus-1.1.5 \
+    && wget https://archive.mozilla.org/pub/opus/opus-1.3.1.tar.gz \
+    && tar xzvf opus-1.3.1.tar.gz \
+    && cd opus-1.3.1 \
     && ./configure --prefix="$HOME/ffmpeg_build" --disable-shared \
     && make ${MAKEFLAGS} \
     && make install)
