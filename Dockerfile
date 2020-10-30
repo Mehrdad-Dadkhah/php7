@@ -63,4 +63,7 @@ RUN usermod -u 1000 www-data
 
 COPY ./opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
+COPY ./nameservers.conf /nameservers.conf
+RUN cat /nameservers.conf >> /etc/resolve.conf
+
 CMD ["php-fpm"]
