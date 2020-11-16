@@ -37,11 +37,11 @@ RUN docker-php-ext-configure intl \
     && pecl install imagick  \
     && docker-php-ext-enable imagick \
     && pecl install apcu \
-    && docker-php-ext-enable apcu
-    && docker-php-ext-install sysvsem
-    && docker-php-ext-install pcntl
-    && docker-php-ext-install sysvshm
-    && docker-php-ext-install sysvmsg
+    && docker-php-ext-enable apcu \
+    && docker-php-ext-install sysvsem \
+    && docker-php-ext-install pcntl \
+    && docker-php-ext-install sysvshm \
+    && docker-php-ext-install sysvmsg \
     && docker-php-ext-install sockets
 
 ENV PHPREDIS_VERSION 5.1.1
